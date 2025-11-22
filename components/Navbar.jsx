@@ -12,12 +12,12 @@ const navItems = [
 ]
 
 export default function Navbar() {
-  const [active, setActive] = useState<string | null>(null)
-  const [hovered, setHovered] = useState<string | null>(null)
+  const [active, setActive] = useState(null)
+  const [hovered, setHovered] = useState(null)
 
   const [hidden, setHidden] = useState(false)
   const SCROLL_THRESHOLD = 120   // px (scroll past this -> hide)
-  const HOTSPOT = 70            // px from top to reveal when pointer moves there
+  const HOTSPOT = 70             // px from top to reveal when pointer moves there
 
   // initialise hidden based on current scroll
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function Navbar() {
       }
     }
 
-    function onPointerMove(e: PointerEvent) {
+    function onPointerMove(e) {
       const y = e.clientY ?? -1
       if (y >= 0 && y <= HOTSPOT) {
         setHidden(false)
@@ -64,7 +64,7 @@ export default function Navbar() {
       else setHidden(false)
     }
 
-    function onTouchStart(e: TouchEvent) {
+    function onTouchStart(e) {
       const t = e.touches && e.touches[0]
       if (t && t.clientY <= HOTSPOT) {
         setHidden(false)
@@ -82,8 +82,8 @@ export default function Navbar() {
     }
   }, [])
 
-  const getColor = (color: string, type: "text" | "bg") => {
-    const colors: any = {
+  const getColor = (color, type) => {
+    const colors = {
       blue: { text: "text-blue-400", bg: "bg-blue-500/20" },
       orange: { text: "text-orange-400", bg: "bg-orange-500/20" },
       purple: { text: "text-purple-400", bg: "bg-purple-500/20" },
@@ -93,7 +93,7 @@ export default function Navbar() {
     return colors[color]?.[type] || colors.blue[type]
   }
 
-  const glowFor = (color: string) =>
+  const glowFor = (color) =>
     color === "blue" ? "bg-blue-glow" :
     color === "orange" ? "bg-orange-glow" :
     color === "purple" ? "bg-purple-glow" :
@@ -102,7 +102,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Desktop-only handle really, but harmless on mobile; will never show if hidden=false */}
+      {/* Handle to bring nav back when hidden (mainly desktop) */}
       <div
         className={`nav-handle ${hidden ? "visible" : ""}`}
         onClick={() => setHidden(false)}
