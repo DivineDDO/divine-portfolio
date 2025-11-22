@@ -1,7 +1,7 @@
 "use client"
 import { Link } from "react-scroll"
 import { motion } from "framer-motion"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 
 const navItems = [
   { name: "Projects", id: "projects", color: "blue" },
@@ -12,20 +12,35 @@ const navItems = [
 ]
 
 export default function Navbar() {
-  const [active, setActive] = useState(null)
-  const [hovered, setHovered] = useState(null)
+  const [active, setActive] = useState<string | null>(null)
+  const [hovered, setHovered] = useState<string | null>(null)
 
-  // hide when scrolled down; show when near top, pointer near top, or nav hovered
   const [hidden, setHidden] = useState(false)
   const SCROLL_THRESHOLD = 120   // px (scroll past this -> hide)
   const HOTSPOT = 70            // px from top to reveal when pointer moves there
 
-  // initialize hidden based on current scroll
+  // initialise hidden based on current scroll
   useEffect(() => {
-    setHidden(window.scrollY > SCROLL_THRESHOLD)
+    if (typeof window === "undefined") return
+
+    const isMobile = window.innerWidth < 768
+    if (isMobile) {
+      // 📱 mobile: never hide the navbar
+      setHidden(false)
+    } else {
+      setHidden(window.scrollY > SCROLL_THRESHOLD)
+    }
   }, [])
 
   useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const isMobile = window.innerWidth < 768
+    if (isMobile) {
+      // 📱 mobile: skip all scroll / pointer / touch logic
+      return
+    }
+
     let ticking = false
 
     function onScroll() {
@@ -39,20 +54,17 @@ export default function Navbar() {
       }
     }
 
-    function onPointerMove(e) {
-      // pointer event (mouse or pen)
+    function onPointerMove(e: PointerEvent) {
       const y = e.clientY ?? -1
       if (y >= 0 && y <= HOTSPOT) {
         setHidden(false)
         return
       }
-      // if not near top: if scrolled past threshold keep hidden, otherwise show
       if (window.scrollY > SCROLL_THRESHOLD) setHidden(true)
       else setHidden(false)
     }
 
-    function onTouchStart(e) {
-      // touch devices: reveal if initial touch is near top
+    function onTouchStart(e: TouchEvent) {
       const t = e.touches && e.touches[0]
       if (t && t.clientY <= HOTSPOT) {
         setHidden(false)
@@ -70,9 +82,8 @@ export default function Navbar() {
     }
   }, [])
 
-  // helper for color classes (same as before)
-  const getColor = (color, type) => {
-    const colors = {
+  const getColor = (color: string, type: "text" | "bg") => {
+    const colors: any = {
       blue: { text: "text-blue-400", bg: "bg-blue-500/20" },
       orange: { text: "text-orange-400", bg: "bg-orange-500/20" },
       purple: { text: "text-purple-400", bg: "bg-purple-500/20" },
@@ -82,8 +93,7 @@ export default function Navbar() {
     return colors[color]?.[type] || colors.blue[type]
   }
 
-  // glow class map used by your CSS
-  const glowFor = (color) =>
+  const glowFor = (color: string) =>
     color === "blue" ? "bg-blue-glow" :
     color === "orange" ? "bg-orange-glow" :
     color === "purple" ? "bg-purple-glow" :
@@ -92,7 +102,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Mobile/touch handle — when nav is hidden, this small bar is clickable/tappable to reveal the nav */}
+      {/* Desktop-only handle really, but harmless on mobile; will never show if hidden=false */}
       <div
         className={`nav-handle ${hidden ? "visible" : ""}`}
         onClick={() => setHidden(false)}
@@ -100,14 +110,13 @@ export default function Navbar() {
       />
 
       <motion.nav
-        // slide up when hidden; slide down when visible
         initial={{ y: -70, opacity: 0 }}
         animate={{ y: hidden ? -90 : 0, opacity: hidden ? 0 : 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 28 }}
         className="fixed top-0 left-0 w-full bg-neutral-950/70 backdrop-blur-lg text-white px-6 py-3 flex justify-between items-center z-50 border-b border-neutral-800"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onPointerEnter={() => setHidden(false)} // keep visible while pointer is in nav
+        onPointerEnter={() => setHidden(false)}
       >
         <a href="/" className="text-xl font-bold hover:text-gray-300 transition">
           Divine<span className="text-red-700">.</span>
@@ -135,7 +144,9 @@ export default function Navbar() {
                   offset={-70}
                   duration={600}
                   onSetActive={() => setActive(item.id)}
-                  className={`relative px-3 py-1 font-medium transition-colors duration-300 ${isActive ? color : "text-gray-400"}`}
+                  className={`relative px-3 py-1 font-medium transition-colors duration-300 ${
+                    isActive ? color : "text-gray-400"
+                  }`}
                 >
                   {(isHovered || isActive) && (
                     <motion.span
