@@ -193,8 +193,17 @@ export default function Home() {
           style={{ background: SECTION_COLORS.about }}
         />
         <p className="text-gray-100 max-w-2xl mx-auto">
-          A short story about who I am, as well as a link to my CV, and my
-          desired path to becoming a Design Engineer.
+          I’m Divine Obienu — a Design Engineering student with a curiosity that refuses to switch off.
+I like understanding how things work, but I love figuring out how to make them better.
+That’s what pushes me into engineering, CAD, and digital creativity.
+
+I work across physical prototyping, 3D modelling, and product design, where I experiment with form, movement, and user experience. My approach is simple: if I can imagine it, I’ll push myself to build it — from multi-dimensional chess sets to concept tunnels inspired by organic structures.
+
+Beyond design, I enjoy writing and producing Christian rap, where storytelling and faith help shape how I think and create. I’m also active in my school community, whether that’s serving as Sixth Form Deputy Head, leading discussions through my ‘Why Christian?’ club, or helping younger students through mentoring and childcare.
+
+My long-term goal is to study Design Engineering at Imperial College and work in robotics — building things that don’t just look good, but genuinely improve how people navigate the world.
+
+Every project on this portfolio is a step toward that future.
         </p>
       </section>
 
