@@ -19,13 +19,13 @@ export default function Navbar() {
   const SCROLL_THRESHOLD = 120   // px (scroll past this -> hide)
   const HOTSPOT = 70             // px from top to reveal when pointer moves there
 
-  // initialise hidden based on current scroll
+  // initialise hidden based on current scroll / viewport
   useEffect(() => {
     if (typeof window === "undefined") return
 
     const isMobile = window.innerWidth < 768
     if (isMobile) {
-      // 📱 mobile: never hide the navbar
+      // 📱 mobile: navbar should always be visible
       setHidden(false)
     } else {
       setHidden(window.scrollY > SCROLL_THRESHOLD)
@@ -37,7 +37,7 @@ export default function Navbar() {
 
     const isMobile = window.innerWidth < 768
     if (isMobile) {
-      // 📱 mobile: skip all scroll / pointer / touch logic
+      // 📱 mobile: skip scroll + pointer behaviour entirely
       return
     }
 
@@ -113,16 +113,24 @@ export default function Navbar() {
         initial={{ y: -70, opacity: 0 }}
         animate={{ y: hidden ? -90 : 0, opacity: hidden ? 0 : 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 28 }}
-        className="fixed top-0 left-0 w-full bg-neutral-950/70 backdrop-blur-lg text-white px-6 py-3 flex justify-between items-center z-50 border-b border-neutral-800"
+        className="fixed top-0 left-0 w-full bg-neutral-950/70 backdrop-blur-lg text-white px-4 md:px-6 py-3 flex justify-between items-center z-50 border-b border-neutral-800"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onPointerEnter={() => setHidden(false)}
       >
-        <a href="/" className="text-xl font-bold hover:text-gray-300 transition">
+        <a href="/" className="text-lg md:text-xl font-bold hover:text-gray-300 transition whitespace-nowrap mr-4">
           Divine<span className="text-red-700">.</span>
         </a>
 
-        <div className="flex gap-5 text-sm">
+        {/* Nav items container – scrollable on mobile */}
+        <div
+          className="
+            flex gap-4 md:gap-5 text-sm 
+            overflow-x-auto whitespace-nowrap 
+            md:overflow-visible 
+            [-webkit-overflow-scrolling:touch]
+          "
+        >
           {navItems.map((item) => {
             const isActive = active === item.id
             const isHovered = hovered === item.id
