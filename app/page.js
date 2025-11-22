@@ -52,7 +52,7 @@ export default function Home() {
         </motion.h2>
       </section>
 
-      {/* Projects Section */}
+          {/* Projects Section */}
       <section
         id="projects"
         className="min-h-screen flex flex-col justify-center items-center px-8 py-20 border-t border-neutral-800"
@@ -81,10 +81,11 @@ export default function Home() {
                 Educational Games and Toys: Transitional Chess
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                A chess set design that transitions different &quot;dimensions&quot;
-                of play. This 4D chess concept challenges traditional gameplay by
-                introducing an additional spatial dimension, enhancing strategic
-                depth and cognitive engagement.
+                A reimagined chess set that transitions between different
+                &quot;dimensions&quot; of play. The design explores how an
+                added spatial layer can increase strategic depth and encourage
+                players to think more abstractly about movement, position and
+                interaction.
               </p>
             </motion.div>
           </a>
@@ -104,8 +105,10 @@ export default function Home() {
                 Improving Urban Spaces: Skating Tunnel Concept
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                A concept inspired by flowing organic forms, merging
-                architecture and community art in a tunnel structure.
+                A tunnel concept for skaters that combines flowing, organic
+                geometry with community artwork. The project focuses on turning
+                neglected circulation space into a safer, expressive environment
+                that invites young people to move, gather and create.
               </p>
             </motion.div>
           </a>
@@ -125,14 +128,16 @@ export default function Home() {
                 LED Lamp
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed">
-                A design of an LED lamp with a focus on sleek aesthetics and
-                user-friendly functionality, emphasising minimalism and modern
-                design principles.
+                A minimalist LED lamp design that prioritises clean form,
+                controlled light spill and user comfort. The project explores
+                how simple geometry, surface treatment and colour temperature
+                can influence mood and the character of a space.
               </p>
             </motion.div>
           </a>
         </div>
       </section>
+
 
       {/* CAD Skills Section */}
 <section
